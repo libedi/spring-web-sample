@@ -3,7 +3,10 @@ package kr.co.tworld.shop.sample.model;
 import javax.validation.constraints.NotEmpty;
 
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,12 +16,14 @@ import lombok.ToString;
  *
  */
 @Getter @Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString @Builder
 public class Sample {
 	
 	// All groups. Hibernate default message.
 	@NotEmpty
-	private String customerId;
+	private Integer customerId;
 	
 	// Specific group. custom message.
 	@NotEmpty(groups = Create.class, message = "${valid.msg.not-empty}")

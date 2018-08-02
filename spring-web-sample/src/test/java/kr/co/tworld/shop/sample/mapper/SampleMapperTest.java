@@ -1,5 +1,6 @@
 package kr.co.tworld.shop.sample.mapper;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -37,19 +38,57 @@ public class SampleMapperTest {
 	}
 	
 	@Test
-	public void test01_selectCustomerList() throws Exception {
+	public void test02_selectCustomerList() throws Exception {
 		List<Sample> list = this.sampleMapper.selectCustomer(null);
+		assertNotNull(list);
 		assertTrue(list instanceof List);
 		list.stream().forEach(System.out::println);
 	}
 	
 	@Test
-	public void test02_selectCustomer() throws Exception {
+	public void test03_selectCustomer() throws Exception {
 		List<Sample> list = this.sampleMapper.selectCustomer(1);
+		assertNotNull(list);
 		assertTrue(list instanceof List);
 		assertTrue(list.size() == 1);
 		Sample sample = list.get(0);
 		Optional.ofNullable(sample).ifPresent(System.out::println);
+	}
+	
+	@Test
+	public void test04_insertCustomer() throws Exception {
+		Sample newSample = Sample.builder()
+				.customerId(10)
+				.customerName("user10")
+				.company("company10")
+				.build();
+		this.sampleMapper.insertCustomer(newSample);
+	}
+	
+	@Test
+	public void test05_updateCustomer() throws Exception {
+		Sample target = this.sampleMapper.selectCustomer(1).get(0);
+		target.setCustomerName("updateUser1");
+		target.setCompany("updateCompany1");
+		Sample expected = Sample.builder()
+				.customerId(target.getCustomerId())
+				.customerName(target.getCustomerName())
+				.company(target.getCompany())
+				.build();
+		this.sampleMapper.updateCustomer(target);
+		Sample actual = this.sampleMapper.selectCustomer(1).get(0);
+		assertNotNull(actual);
+		assertEquals(expected.getCustomerId(), actual.getCustomerId());
+		assertEquals(expected.getCustomerName(), actual.getCustomerName());
+		assertEquals(expected.getCompany(), actual.getCompany());
+	}
+	
+	@Test
+	public void test06_deleteCustomer() throws Exception {
+		int customerId = 1;
+		this.sampleMapper.deleteCustomer(customerId);
+		List<Sample> list = this.sampleMapper.selectCustomer(customerId);
+		assertTrue(list.isEmpty());
 	}
 	
 }

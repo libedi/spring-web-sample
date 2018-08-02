@@ -16,4 +16,10 @@ public interface SampleMapper {
 
 	List<Sample> selectCustomer(Integer customerId);
 
+	void insertCustomer(Sample sample);
+
+	void updateCustomer(Sample sample);
+
+	void deleteCustomer(int customerId);
+
 }
