@@ -1,6 +1,6 @@
 package kr.co.tworld.shop.sample.mapper;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -78,9 +78,7 @@ public class SampleMapperTest {
 		this.sampleMapper.updateCustomer(target);
 		Sample actual = this.sampleMapper.selectCustomer(1).get(0);
 		assertNotNull(actual);
-		assertEquals(expected.getCustomerId(), actual.getCustomerId());
-		assertEquals(expected.getCustomerName(), actual.getCustomerName());
-		assertEquals(expected.getCompany(), actual.getCompany());
+		assertThat(actual).isEqualToComparingFieldByField(expected);
 	}
 	
 	@Test

@@ -1,6 +1,6 @@
 package kr.co.tworld.shop.sample.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -55,9 +55,7 @@ public class SampleServiceTest {
 		when(this.sampleMapper.selectCustomer(customerId)).thenReturn(Arrays.asList(expected));
 		Sample actual = this.sampleService.findById(customerId);
 		assertNotNull(actual);
-		assertEquals(expected.getCustomerId(), actual.getCustomerId());
-		assertEquals(expected.getCustomerName(), actual.getCustomerName());
-		assertEquals(expected.getCompany(), actual.getCompany());
+		assertThat(actual).isEqualToComparingFieldByField(expected);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
