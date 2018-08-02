@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.tworld.shop.sample.mapper.SampleMapper">
+
+	<select id="selectCustomer" parameterType="int" resultType="kr.co.tworld.shop.sample.model.Sample">
+		SELECT /* SampleMapper.selectCustomer */
+			CUSTOMER_ID
+			, CUSTOMER_NAME
+			, COMPANY
+		FROM CUSTOMER
+		<where>
+			<if test="_parameter != null">
+				CUSTOMER_ID = #{_parameter}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertCustomer" parameterType="kr.co.tworld.shop.sample.model.Sample">
+    	INSERT /* SampleMapper.insertCustomer */
+    	INTO CUSTOMER(
+    		CUSTOMER_ID
+            , CUSTOMER_NAME
+            , COMPANY
+    	) VALUES (
+    	    #{customerId}
+    		, #{customerName}
+    		, #{company}
+    	)
+    </insert>
+    
+    <update id="updateCustomer" parameterType="kr.co.tworld.shop.sample.model.Sample">
+    	UPDATE /* SampleMapper.updateCustomer */
+    	CUSTOMER
+    	<set>
+    		<if test="customerName != null and customerName != ''">
+    		CUSTOMER_NAME = #{customerName}
+    		</if>
+    		<if test="company != null and company != ''">
+    		, COMPANY = #{company}
+    		</if>
+    	</set>
+    	WHERE CUSTOMER_ID = #{customerId}
+    </update>
+    
+    <delete id="deleteCustomer" parameterType="int">
+    	DELETE /* SampleMapper.deleteCustomer */
+    	FROM CUSTOMER
+    	WHERE CUSTOMER_ID = #{_parameter}
+    </delete>
+	
+</mapper>
