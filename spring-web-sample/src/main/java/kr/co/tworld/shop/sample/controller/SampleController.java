@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping("/sample")
+@RequestMapping("/view/sample")
 public class SampleController {
 
 }
