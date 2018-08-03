@@ -1,4 +1,4 @@
-package kr.co.tworld.shop.framework.config;
+package kr.co.tworld.shop.framework.handler;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessException;

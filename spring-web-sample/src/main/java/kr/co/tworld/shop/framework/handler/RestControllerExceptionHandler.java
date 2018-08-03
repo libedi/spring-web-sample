@@ -1,4 +1,4 @@
-package kr.co.tworld.shop.framework.config;
+package kr.co.tworld.shop.framework.handler;
 
 import java.io.FileNotFoundException;
 
