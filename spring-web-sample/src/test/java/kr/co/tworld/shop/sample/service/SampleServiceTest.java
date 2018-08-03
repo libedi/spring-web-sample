@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
+import kr.co.tworld.shop.common.exception.ResourceConflictException;
 import kr.co.tworld.shop.sample.mapper.SampleMapper;
 import kr.co.tworld.shop.sample.model.Sample;
 
@@ -63,6 +64,46 @@ public class SampleServiceTest {
 		int customerId = 10;
 		when(this.sampleMapper.selectCustomer(customerId)).thenReturn(Collections.emptyList());
 		this.sampleService.getCustomer(customerId);
+	}
+	
+	@Test
+	public void test04_createCustomer() throws Exception {
+		int customerId = 10;
+		Sample expected = Sample.builder()
+				.customerId(customerId)
+				.customerName("user10")
+				.company("company10")
+				.build();
+		this.sampleService.createCustomer(expected);
+	}
+	
+	@Test(expected = ResourceConflictException.class)
+	public void test05_createCustomerThrow() throws Exception {
+		int customerId = 10;
+		Sample expected = Sample.builder()
+				.customerId(customerId)
+				.customerName("user10")
+				.company("company10")
+				.build();
+		when(this.sampleMapper.selectCustomer(customerId)).thenReturn(Arrays.asList(expected));
+		this.sampleService.createCustomer(expected);
+	}
+	
+	@Test
+	public void test06_updateCustomer() throws Exception {
+		int customerId = 1;
+		Sample expected = Sample.builder()
+				.customerId(customerId)
+				.customerName("updateUser1")
+				.company("updateCompany1")
+				.build();
+		this.sampleService.updateCustomer(expected);
+	}
+	
+	@Test
+	public void test07_deleteCustomer() throws Exception {
+		int customerId = 1;
+		this.sampleService.deleleCustomer(customerId);
 	}
 	
 }
