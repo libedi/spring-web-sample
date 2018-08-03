@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.tworld.shop.common.exception.ResourceConflictException;
 import kr.co.tworld.shop.sample.mapper.SampleMapper;
@@ -43,6 +44,7 @@ public class SampleService {
 	 * create customer
 	 * @param sample
 	 */
+	@Transactional
 	public void createCustomer(final Sample sample) {
 		this.sampleMapper.selectCustomer(sample.getCustomerId()).stream().findFirst().ifPresent(s -> {
 			throw new ResourceConflictException("Customer already exists.");
@@ -54,6 +56,7 @@ public class SampleService {
 	 * update customer
 	 * @param sample
 	 */
+	@Transactional
 	public void updateCustomer(final Sample sample) {
 		this.sampleMapper.selectCustomer(sample.getCustomerId()).stream().findFirst()
 				.orElseThrow(ResourceNotFoundException::new);
@@ -64,10 +67,9 @@ public class SampleService {
 	 * delete customer by customerId
 	 * @param customerId
 	 */
+	@Transactional
 	public void deleleCustomer(final int customerId) {
 		this.sampleMapper.deleteCustomer(customerId);
 	}
-	
-	
 
 }
