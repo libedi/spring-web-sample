@@ -34,7 +34,7 @@ public class SampleService {
 	 * @param customerId
 	 * @return
 	 */
-	public Sample getCustomer(int customerId) {
+	public Sample getCustomer(final int customerId) {
 		return this.sampleMapper.selectCustomer(customerId).stream()
 				.findFirst().orElseThrow(ResourceNotFoundException::new);
 	}
@@ -43,7 +43,7 @@ public class SampleService {
 	 * create customer
 	 * @param sample
 	 */
-	public void createCustomer(Sample sample) {
+	public void createCustomer(final Sample sample) {
 		this.sampleMapper.selectCustomer(sample.getCustomerId()).stream().findFirst().ifPresent(s -> {
 			throw new ResourceConflictException("Customer already exists.");
 		});
@@ -54,7 +54,9 @@ public class SampleService {
 	 * update customer
 	 * @param sample
 	 */
-	public void updateCustomer(Sample sample) {
+	public void updateCustomer(final Sample sample) {
+		this.sampleMapper.selectCustomer(sample.getCustomerId()).stream().findFirst()
+				.orElseThrow(ResourceNotFoundException::new);
 		this.sampleMapper.updateCustomer(sample);
 	}
 
@@ -62,7 +64,7 @@ public class SampleService {
 	 * delete customer by customerId
 	 * @param customerId
 	 */
-	public void deleleCustomer(int customerId) {
+	public void deleleCustomer(final int customerId) {
 		this.sampleMapper.deleteCustomer(customerId);
 	}
 	

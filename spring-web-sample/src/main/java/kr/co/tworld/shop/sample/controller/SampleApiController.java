@@ -4,16 +4,18 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
+import kr.co.tworld.shop.framework.model.ValidationMarkers.Update;
 import kr.co.tworld.shop.sample.model.Sample;
 import kr.co.tworld.shop.sample.service.SampleService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/api/sample")
+@RequestMapping("/api/samples")
 @RequiredArgsConstructor
 public class SampleApiController {
 	
@@ -57,7 +59,7 @@ public class SampleApiController {
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createCustomer(final Sample sample) {
+	public void createCustomer(@Validated(Create.class) final Sample sample) {
 		this.sampleService.createCustomer(sample);
 	}
 
@@ -65,10 +67,9 @@ public class SampleApiController {
 	 * update customer
 	 * @param sample
 	 */
-	@PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PatchMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public void updateCustomer(final Sample sample) {
+	public void updateCustomer(@Validated(Update.class) final Sample sample) {
 		this.sampleService.updateCustomer(sample);
 	}
 
