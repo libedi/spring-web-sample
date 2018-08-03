@@ -2,7 +2,6 @@ package kr.co.tworld.shop.framework.config;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -33,9 +32,6 @@ import kr.co.tworld.shop.framework.model.ErrorResponse;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 	/**
 	 * Validator Configuration
 	 * @param messageSource
@@ -53,7 +49,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	 * @return
 	 */
 	@Bean
-	public ErrorAttributes errorAttributes() {
+	public ErrorAttributes errorAttributes(final ObjectMapper objectMapper) {
 		return new DefaultErrorAttributes() {
 
 			@Override
