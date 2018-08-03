@@ -37,15 +37,15 @@ public class SampleServiceTest {
 	}
 	
 	@Test
-	public void test01_findAll() throws Exception {
+	public void test01_getCustomerList() throws Exception {
 		when(this.sampleMapper.selectCustomer(null)).thenReturn(Collections.emptyList());
-		List<Sample> actual = this.sampleService.findAll();
+		List<Sample> actual = this.sampleService.getCustomerList();
 		assertNotNull(actual);
 		assertTrue(actual instanceof List);
 	}
 	
 	@Test
-	public void test02_findById() throws Exception {
+	public void test02_getCustomer() throws Exception {
 		int customerId = 1;
 		Sample expected = Sample.builder()
 				.customerId(customerId)
@@ -53,15 +53,16 @@ public class SampleServiceTest {
 				.company("company1")
 				.build();
 		when(this.sampleMapper.selectCustomer(customerId)).thenReturn(Arrays.asList(expected));
-		Sample actual = this.sampleService.findById(customerId);
+		Sample actual = this.sampleService.getCustomer(customerId);
 		assertNotNull(actual);
 		assertThat(actual).isEqualToComparingFieldByField(expected);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
-	public void test03_findByIdThrow() throws Exception {
+	public void test03_getCustomerThrow() throws Exception {
 		int customerId = 10;
 		when(this.sampleMapper.selectCustomer(customerId)).thenReturn(Collections.emptyList());
-		this.sampleService.findById(customerId);
+		this.sampleService.getCustomer(customerId);
 	}
+	
 }

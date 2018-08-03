@@ -24,7 +24,7 @@ public class SampleService {
 	 * find all
 	 * @return
 	 */
-	public List<Sample> findAll() {
+	public List<Sample> getCustomerList() {
 		return this.sampleMapper.selectCustomer(null);
 	}
 
@@ -33,7 +33,7 @@ public class SampleService {
 	 * @param customerId
 	 * @return
 	 */
-	public Sample findById(int customerId) {
+	public Sample getCustomer(int customerId) {
 		return this.sampleMapper.selectCustomer(customerId).stream()
 				.findFirst().orElseThrow(ResourceNotFoundException::new);
 	}
