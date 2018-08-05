@@ -35,6 +35,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -84,7 +88,12 @@
 		    <groupId>nz.net.ultraq.thymeleaf</groupId>
 		    <artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
-		
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.9.1</version>
+		</dependency>
+
 		<!-- WebJars -->
 		<!-- For webjars version agnostic -->
 		<dependency>
@@ -111,6 +120,27 @@
 		    <groupId>org.webjars</groupId>
 		    <artifactId>datatables</artifactId>
 		    <version>1.10.19</version>
+		</dependency>
+		
+		<!-- for JDK9+ -->
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		     <artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.xml.bind</groupId>
+		    <artifactId>jaxb-core</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.xml.bind</groupId>
+		    <artifactId>jaxb-impl</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.activation</groupId>
+		    <artifactId>javax.activation</artifactId>
+		    <version>1.2.0</version>
 		</dependency>
 	</dependencies>
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Update;
+import kr.co.tworld.shop.framework.security.model.User;
 import kr.co.tworld.shop.sample.model.Sample;
 import kr.co.tworld.shop.sample.service.SampleService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Sample Controller for REST API
  * @author Sangjun, Park
  *
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/samples")
 @RequiredArgsConstructor
@@ -39,7 +43,8 @@ public class SampleApiController {
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public List<Sample> getCustomerList() {
+	public List<Sample> getCustomerList(@AuthenticationPrincipal User user) {
+		log.info(user.toString());
 		return this.sampleService.getCustomerList();
 	}
 

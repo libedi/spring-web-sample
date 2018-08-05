@@ -1,0 +1,57 @@
+package kr.co.tworld.shop.framework.filter;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.co.tworld.shop.framework.model.AccountCredentials;
+import kr.co.tworld.shop.framework.security.model.User;
+import kr.co.tworld.shop.framework.security.service.TokenAuthenticationService;
+
+/**
+ * JWT Login filter
+ * @author Sangjun, Park
+ *
+ */
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter  {
+	
+	@Autowired
+	private ObjectMapper objectMapper;
+	
+	@Autowired
+	private TokenAuthenticationService authenticationService;
+
+	public JWTLoginFilter(final String url, final AuthenticationManager authenticationManager) {
+		super(new AntPathRequestMatcher(url));
+		this.setAuthenticationManager(authenticationManager);
+	}
+
+	@Override
+	public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
+			throws AuthenticationException, IOException, ServletException {
+		AccountCredentials account = this.objectMapper.readValue(request.getInputStream(), AccountCredentials.class);
+		return this.getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
+				account.getUsername(), account.getPassword(), Collections.emptyList()));
+	}
+
+	@Override
+	protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response,
+			final FilterChain chain, Authentication authResult) throws IOException, ServletException {
+		this.authenticationService.addAuthentication(response, (User) authResult.getPrincipal());
+	}
+
+}
