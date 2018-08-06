@@ -1,7 +1,6 @@
 package kr.co.tworld.shop.framework.security.service;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import kr.co.tworld.shop.framework.security.model.User;
 
 /**
@@ -30,6 +30,7 @@ public class TokenAuthenticationService {
 	private final String HEADER = "Authorization";
 	private final String TOKEN_PREFIX = "Bearer";
 	private final String USERNAME = "username";
+	private final String ROLE = "role";
 	
 	private final String SECRET;
 	
@@ -45,9 +46,11 @@ public class TokenAuthenticationService {
 	public void addAuthentication(final HttpServletResponse response, final User user) {
 		final String jwt = Jwts.builder()
 				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+				.signWith(SignatureAlgorithm.HS256, this.SECRET)
 				.setSubject("TokenForSampleAuth")
 				.setExpiration(Date.from(Instant.now().plusMillis(this.EXPIRATION_TIME)))
 				.claim(this.USERNAME, user.getUsername())
+				.claim(this.ROLE, user.getAuthorities().stream().findFirst().get().getAuthority())
 				.compact();
 				;
 		response.addHeader(this.HEADER, this.TOKEN_PREFIX + " " + jwt);
@@ -70,9 +73,9 @@ public class TokenAuthenticationService {
 				final User user = User.builder()
 						.username(claims.get(this.USERNAME, String.class))
 						.password("")
-						.authotities(Collections.emptyList())
+						.role(claims.get(this.ROLE, String.class))
 						.build();
-				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+				return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 			}
 		};
 		return null;

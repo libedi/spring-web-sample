@@ -14,6 +14,6 @@ import kr.co.tworld.shop.framework.security.model.User;
 @Mapper
 public interface CommonMapper {
 
-	@Select("SELECT username, password FROM USER WHERE username = #{username}")
+	@Select("SELECT username, password, role FROM USER WHERE username = #{username}")
 	User getUser(@Param("username") String username);
 }

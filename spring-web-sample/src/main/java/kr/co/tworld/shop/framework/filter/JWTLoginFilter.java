@@ -1,7 +1,7 @@
 package kr.co.tworld.shop.framework.filter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -44,8 +44,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter  {
 	public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		AccountCredentials account = this.objectMapper.readValue(request.getInputStream(), AccountCredentials.class);
-		return this.getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
-				account.getUsername(), account.getPassword(), Collections.emptyList()));
+		return this.getAuthenticationManager()
+				.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword(), new ArrayList<>()));
 	}
 
 	@Override

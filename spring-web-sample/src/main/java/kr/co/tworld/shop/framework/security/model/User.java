@@ -1,8 +1,10 @@
 package kr.co.tworld.shop.framework.security.model;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
@@ -24,11 +26,11 @@ public class User implements UserDetails {
 	
 	private String username;
 	private String password;
-	private Collection<? extends GrantedAuthority> authotities;
+	private String role;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authotities;
+		return Arrays.asList(new SimpleGrantedAuthority(this.role));
 	}
 
 	@Override
