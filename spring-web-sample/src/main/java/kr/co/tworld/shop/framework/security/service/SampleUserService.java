@@ -22,7 +22,7 @@ public class SampleUserService implements UserDetailsService {
 	private CommonService commonService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		return Optional.ofNullable(this.commonService.getUser(username))
 				.orElseThrow(() -> {
 			return new UsernameNotFoundException("Not found username: " + username);

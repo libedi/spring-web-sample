@@ -14,7 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,8 +35,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter  {
 	@Autowired
 	private TokenAuthenticationService authenticationService;
 
-	public JWTLoginFilter(final String url, final AuthenticationManager authenticationManager) {
-		super(new AntPathRequestMatcher(url));
+	public JWTLoginFilter(final RequestMatcher requestMatcher, final AuthenticationManager authenticationManager) {
+		super(requestMatcher);
 		this.setAuthenticationManager(authenticationManager);
 	}
 

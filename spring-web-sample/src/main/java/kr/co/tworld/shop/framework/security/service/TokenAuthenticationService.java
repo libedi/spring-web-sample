@@ -43,7 +43,7 @@ public class TokenAuthenticationService {
 	 * @param user
 	 */
 	public void addAuthentication(final HttpServletResponse response, final User user) {
-		String jwt = Jwts.builder()
+		final String jwt = Jwts.builder()
 				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 				.setSubject("TokenForSampleAuth")
 				.setExpiration(Date.from(Instant.now().plusMillis(this.EXPIRATION_TIME)))
@@ -59,15 +59,15 @@ public class TokenAuthenticationService {
 	 * @return
 	 */
 	public Authentication getAuthentication(final HttpServletRequest request) {
-		String token = request.getHeader(this.HEADER);
+		final String token = request.getHeader(this.HEADER);
 		
 		if(StringUtils.isNotEmpty(token)) {
-			Claims claims = Jwts.parser()
+			final Claims claims = Jwts.parser()
 					.setSigningKey(this.SECRET)
 					.parseClaimsJwt(StringUtils.replace(token, this.TOKEN_PREFIX, ""))
 					.getBody();
 			if(StringUtils.isNotEmpty(claims.get(this.USERNAME, String.class))) {
-				User user = User.builder()
+				final User user = User.builder()
 						.username(claims.get(this.USERNAME, String.class))
 						.password("")
 						.authotities(Collections.emptyList())

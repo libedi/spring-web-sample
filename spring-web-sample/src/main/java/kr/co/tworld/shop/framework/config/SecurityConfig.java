@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import kr.co.tworld.shop.framework.filter.JWTAuthenticationFilter;
 import kr.co.tworld.shop.framework.filter.JWTLoginFilter;
@@ -34,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public JWTLoginFilter jwtLoginFilter() throws Exception {
-		return new JWTLoginFilter("/api/login", this.authenticationManager());
+		return new JWTLoginFilter(new AntPathRequestMatcher("/api/login"), this.authenticationManager());
 	}
 	
 	@Bean
