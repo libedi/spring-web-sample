@@ -38,6 +38,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter  {
 	public JWTLoginFilter(final RequestMatcher requestMatcher, final AuthenticationManager authenticationManager) {
 		super(requestMatcher);
 		this.setAuthenticationManager(authenticationManager);
+		this.setAuthenticationFailureHandler((req, resp, e) -> {
+			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			resp.flushBuffer();
+		});
 	}
 
 	@Override
