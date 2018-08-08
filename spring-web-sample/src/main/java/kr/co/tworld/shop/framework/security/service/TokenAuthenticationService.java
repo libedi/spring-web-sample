@@ -34,7 +34,7 @@ public class TokenAuthenticationService {
 	
 	private final String SECRET;
 	
-	public TokenAuthenticationService(@Value("${token.key.secret}") String secret) {
+	public TokenAuthenticationService(@Value("${token.key.secret}") final String secret) {
 		this.SECRET = secret;
 	}
 
