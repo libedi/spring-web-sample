@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!--
+	$LAYOUT_TITLE은 default layout 페이지의 title,
+	$CONTENT_TITLE은 content 페이지의 title
+-->
+<title data-layout-title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Thymeleaf Layout Example</title>
+<!-- Common CSS -->
+<style type="text/css">
+p {
+	font-style: italic;
+}
+</style>
+<!--
+	You don't need to put the layout:fragment/data-layout-fragment attribute into the <head> section
+	- the decoration process will automatically copy the <head> section of your content templates into your layout page.
+-->
+<!-- Content Page CSS -->
+<!-- <th:block data-layout-fragment="content-css"></th:block> -->
+</head>
+<body>
+	<!-- Header Area -->
+	<th:block data-th-replace="layout/header :: header">	<!-- layout/header.html의 header fragment에 접근 -->
+		<header>
+			<p>This is default Header area.</p>
+		</header>
+	</th:block>
+	
+	<!-- Content Area -->
+	<th:block data-layout-fragment="content">
+		<section>
+			<p>This is default Content area.</p>
+		</section>
+	</th:block>
+	
+	<!-- Footer Area -->
+	<th:block data-th-replace="layout/footer :: footer">	<!-- layout/footer.html의 footer fragment에 접근 -->
+		<footer>
+			<p>This is default Footer area.</p>
+		</footer>
+	</th:block>
+	
+	<!-- Common Script -->
+	<script data-th-src="@{/webjars/jquery/jquery.min.js}" src="/webjars/jquery/jquery.min.js"></script>
+	<script data-th-src="@{/js/common/common.js}" src="/js/common/common.js"></script>
+	<!-- Content Page Script -->
+	<th:block data-layout-fragment="content-js"></th:block>
+</body>
+</html>
