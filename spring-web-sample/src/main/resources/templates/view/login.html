@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sample Page</title>
+</head>
+<body>
+<section>
+	<form id="form">
+		<fieldset>
+			<label for="username">ID</label>
+			<input type="text" id="username" name="username"><br>
+			<label for="password">PASSWORD</label>
+			<input type="password" id="password" name="password">
+		</fieldset>
+		<button id="login">Sign In</button>
+	</form>
+</section>
+
+<script>
+$(function(){
+	"use strict";
+	
+	// Sign In 버튼 클릭 이벤트
+	$("#login").click(function(){
+		$.ajax({
+			type: "post",
+			url: "/api/login",
+			data: JSON.stringify( $("#form").serializeObject() ),
+			contentType: "application/json;charset=UTF-8",
+			success: function(result, status, xhr) {
+				const jwt = xhr.getResponseHeader("Authentication");
+				sessionStorage.setItem("jwt", jwt);
+			},
+			error: function(xhr, status, err) {
+				if(xhr.responseJSON) {
+					const msg = xhr.responseJSON.errorMessage;
+					alert("인증에 실패하였습니다:" + msg);
+				}
+			}
+		});
+	});
+});
+</script>
+</body>
+</html>

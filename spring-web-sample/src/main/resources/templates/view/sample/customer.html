@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" data-layout-decorator="layout/default">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Sample Page</title>
 </head>
 <body>
+<section>
+	<button id="get"></button>
+</section>
 
+<th:block data-layout-fragment="content-js">
+<script>
+	$("#order1 p").click(function(){
+		alert($(this).text());
+	});
+</script>
+</th:block>
 </body>
 </html>
