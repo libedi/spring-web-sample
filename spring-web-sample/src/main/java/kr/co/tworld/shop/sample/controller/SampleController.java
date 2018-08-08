@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/view/sample")
 public class SampleController {
 
-	@GetMapping
-	public String viewCustomer(Model model) {
-		return "sample/customer";
-	}
+	@GetMapping("/customer")
+	public void viewCustomer(Model model) {}
 
 }
