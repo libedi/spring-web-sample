@@ -24,12 +24,12 @@ public class SampleControllerTest {
 		this.controller = new SampleController();
 	}
 	
-	@Test
-	public void test01_viewCustomer() throws Exception {
-		Model model = new ConcurrentModel();
-		String expected = "sample/customer";
-		String actual = this.controller.viewCustomer(model);
-		assertEquals(expected, actual);
-	}
+//	@Test
+//	public void test01_viewCustomer() throws Exception {
+//		Model model = new ConcurrentModel();
+//		String expected = "sample/customer";
+//		String actual = this.controller.viewCustomer(model);
+//		assertEquals(expected, actual);
+//	}
 
 }
