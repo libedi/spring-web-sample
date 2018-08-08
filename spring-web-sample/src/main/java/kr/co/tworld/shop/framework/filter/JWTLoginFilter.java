@@ -27,7 +27,7 @@ import kr.co.tworld.shop.framework.security.service.TokenAuthenticationService;
  * @author Sangjun, Park
  *
  */
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter  {
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	@Autowired
 	private ObjectMapper objectMapper;

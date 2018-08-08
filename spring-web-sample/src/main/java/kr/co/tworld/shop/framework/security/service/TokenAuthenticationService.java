@@ -67,7 +67,7 @@ public class TokenAuthenticationService {
 		if(StringUtils.isNotEmpty(token)) {
 			final Claims claims = Jwts.parser()
 					.setSigningKey(this.SECRET)
-					.parseClaimsJwt(StringUtils.replace(token, this.TOKEN_PREFIX, ""))
+					.parseClaimsJws(StringUtils.replace(token, this.TOKEN_PREFIX, ""))
 					.getBody();
 			if(StringUtils.isNotEmpty(claims.get(this.USERNAME, String.class))) {
 				final User user = User.builder()
