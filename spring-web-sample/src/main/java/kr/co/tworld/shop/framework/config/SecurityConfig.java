@@ -1,5 +1,7 @@
 package kr.co.tworld.shop.framework.config;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
@@ -59,8 +61,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.exceptionHandling()
 				.authenticationEntryPoint((req, resp, e) -> {
-					resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					resp.flushBuffer();
+					final String requestURI = req.getRequestURI();
+					if( Pattern.matches("\\w*\\/api\\/[\\w+|\\/]+", requestURI) ) {
+						resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+						resp.flushBuffer();
+					}
+					else if( Pattern.matches("\\w*\\/view\\/[\\w+|\\/]+", requestURI) ) {
+						resp.sendRedirect("/error/403");
+					}
 				})
 				.accessDeniedHandler((req, resp, e) -> {
 					resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -73,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/view/login").permitAll()
+				.antMatchers(HttpMethod.GET, "/error/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.addFilterBefore(this.jwtLoginFilter(), UsernamePasswordAuthenticationFilter.class)

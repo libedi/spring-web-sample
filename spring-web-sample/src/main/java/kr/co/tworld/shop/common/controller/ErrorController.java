@@ -32,6 +32,6 @@ public class ErrorController {
 		model.addAttribute("title", this.messageSource.getMessage("error.msg.title"));
 		model.addAttribute("description",
 				this.messageSource.getMessage("error.msg.desc." + Optional.ofNullable(code).orElseGet(() -> "500")));
-		return "/error/error";
+		return "/view/error/error";
 	}
 }
