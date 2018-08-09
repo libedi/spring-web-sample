@@ -1,12 +1,13 @@
 package kr.co.tworld.shop.framework.config;
 
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,12 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.exceptionHandling()
 				.authenticationEntryPoint((req, resp, e) -> {
-					final String requestURI = req.getRequestURI();
-					if( Pattern.matches("\\w*\\/api\\/[\\w+|\\/]+", requestURI) ) {
+					if(StringUtils.contains(req.getHeader(HttpHeaders.ACCEPT), MediaType.APPLICATION_JSON_VALUE)) {
 						resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+						resp.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
 						resp.flushBuffer();
 					}
-					else if( Pattern.matches("\\w*\\/view\\/[\\w+|\\/]+", requestURI) ) {
+					else {
 						resp.sendRedirect("/error/403");
 					}
 				})
