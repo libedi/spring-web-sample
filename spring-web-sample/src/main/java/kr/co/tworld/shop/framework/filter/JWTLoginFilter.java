@@ -30,10 +30,10 @@ import kr.co.tworld.shop.framework.security.service.TokenAuthenticationService;
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	@Autowired
-	private ObjectMapper objectMapper;
+	private TokenAuthenticationService authenticationService;
 	
 	@Autowired
-	private TokenAuthenticationService authenticationService;
+	private ObjectMapper objectMapper;
 
 	public JWTLoginFilter(final RequestMatcher requestMatcher, final AuthenticationManager authenticationManager) {
 		super(requestMatcher);
@@ -47,7 +47,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		AccountCredentials account = this.objectMapper.readValue(request.getInputStream(), AccountCredentials.class);
+		final AccountCredentials account = this.objectMapper.readValue(request.getInputStream(), AccountCredentials.class);
 		return this.getAuthenticationManager()
 				.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword(), new ArrayList<>()));
 	}

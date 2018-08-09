@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class LoggerAspect {
 	 * @param result
 	 */
 	@AfterReturning(pointcut = "loggingPointcut()", returning = "result")
-	public void returnLogging(final JoinPoint joinPoint, final Object result) {
+	public void returnLogging(final JoinPoint joinPoint, @Nullable final Object result) {
 		log.debug("Completed: {}", joinPoint);
 		if(result != null) {
 			log.debug("Result: {}", result.toString());

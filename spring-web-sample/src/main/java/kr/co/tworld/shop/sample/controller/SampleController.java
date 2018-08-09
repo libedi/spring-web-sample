@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SampleController {
 
 	@GetMapping("/customer")
-	public void viewCustomer(Model model) {}
+	public void viewCustomer(final Model model) {}
 
 }

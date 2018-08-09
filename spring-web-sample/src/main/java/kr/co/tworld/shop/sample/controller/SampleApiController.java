@@ -43,7 +43,7 @@ public class SampleApiController {
 	 */
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public List<Sample> getCustomerList(@AuthenticationPrincipal User user) {
+	public List<Sample> getCustomerList(@AuthenticationPrincipal final User user) {
 		log.info(user.toString());
 		return this.sampleService.getCustomerList();
 	}
