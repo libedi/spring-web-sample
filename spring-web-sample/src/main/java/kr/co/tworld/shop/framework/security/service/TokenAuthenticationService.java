@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,6 @@ import kr.co.tworld.shop.framework.security.model.User;
 public class TokenAuthenticationService {
 	
 	private final long EXPIRATION_TIME = 86_400_400;	// 1 day
-	private final String HEADER = "Authorization";
 	private final String TOKEN_PREFIX = "Bearer";
 	private final String USERNAME = "username";
 	private final String ROLE = "role";
@@ -53,7 +53,7 @@ public class TokenAuthenticationService {
 				.claim(this.ROLE, user.getAuthorities().stream().findFirst().get().getAuthority())
 				.compact();
 				;
-		response.addHeader(this.HEADER, this.TOKEN_PREFIX + " " + jwt);
+		response.addHeader(HttpHeaders.AUTHORIZATION, this.TOKEN_PREFIX + " " + jwt);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class TokenAuthenticationService {
 	 * @return
 	 */
 	public Authentication getAuthentication(final HttpServletRequest request) {
-		final String token = request.getHeader(this.HEADER);
+		final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 		
 		if(StringUtils.isNotEmpty(token)) {
 			final Claims claims = Jwts.parser()
