@@ -17,6 +17,7 @@
 ## 3. 인증
 - 세션 기반의 폼 로그인 방식이 아닌, Multi Device 로그인을 위해 Stateless한 Token login 방식
 - 로그인 성공시 Response Header의 Authorization 헤더에 인증토큰 발급
+- 발급된 인증토큰은 sessionStorage에 저장
 - 요청시 Request Header의 Authorization 헤더에 발급된 인증토큰 전송
 - 로그인 실패시, 인증토큰 만료 및 인증토큰 오류시 401 응답 status 반환
 
@@ -28,7 +29,7 @@
 - /framework/** : 프로젝트 구성에 필요한 설정
 - /(sample)/** : 업무단
 
-### 2. Layer
+### 2. Layer 구조
 - xxxController : 뷰 구성을 위한 컨트롤러. URI 패턴 : /view/***
 ~~~
 @Controller
@@ -78,6 +79,18 @@ public class SampleService {
 	public List<Sample> getCustomerList() {
 		return this.sampleMapper.selectCustomer(null);
 	}
+	
+	/**
+	 * create customer
+	 * @param sample
+	 */
+	@Transactional
+	public void createCustomer(final Sample sample) {
+		this.sampleMapper.selectCustomer(sample.getCustomerId()).stream().findFirst().ifPresent(s -> {
+			throw new ResourceConflictException("Customer already exists.");
+		});
+		this.sampleMapper.insertCustomer(sample);
+	}
 }
 ~~~
 
@@ -96,3 +109,9 @@ public interface SampleMapper {
 
 }
 ~~~
+
+### 3. Exception Handling
+- Exception은 ExceptionHanlder에서 공통으로 처리
+- Controller에서 발생한 Exception은 ControllerExceptionHandler에서 처리하여 에러페이지로 리다이렉트
+- ApiController에서 발생한 Exception은 RestControllerExceptionHandler에서 처리하여 적합한 Http Status 반환
+- 가능하면 Exception은 RuntimeException으로 생성하여 Check 로직 제거
