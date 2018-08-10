@@ -115,3 +115,8 @@ public interface SampleMapper {
 - Controller에서 발생한 Exception은 ControllerExceptionHandler에서 처리하여 에러페이지로 리다이렉트. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/framework/handler/ControllerExceptionHandler.java)
 - ApiController에서 발생한 Exception은 RestControllerExceptionHandler에서 처리하여 적합한 Http Status 반환 [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/framework/handler/RestControllerExceptionHandler.java)
 - 가능하면 Exception은 RuntimeException으로 생성하여 Check 로직 제거
+
+### 4. Bean Validation
+- JSR-303 지원
+- @Validated 애노테이션을 이용하여 validation group 지정 가능.
+- Validation 메세지 작성시 메세지 프로퍼티 사용 가능.
