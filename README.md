@@ -30,7 +30,7 @@
 - /(sample)/** : 업무단
 
 ### 2. Layer 구조
-- xxxController : 뷰 구성을 위한 컨트롤러. URI 패턴 : /view/***
+- xxxController : 뷰 구성을 위한 컨트롤러. URI 패턴 : /view/*** [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/controller/SampleController.java)
 ~~~
 @Controller
 @RequestMapping("/view/sample")
@@ -42,7 +42,7 @@ public class SampleController {
 }
 ~~~
 
-- xxxApiController : 비즈니스 모듈 실행을 위한 컨트롤러. 요청과 응답설정. REST 방식 사용. URI 패턴 : /api/***
+- xxxApiController : 비즈니스 모듈 실행을 위한 컨트롤러. 요청과 응답설정. REST 방식 사용. URI 패턴 : /api/*** [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/controller/SampleApiController.java)
 ~~~
 @RestController
 @RequestMapping("/api/samples")
@@ -64,7 +64,7 @@ public class SampleApiController {
 }
 ~~~
 
-- xxxService : 서비스. 비즈니스 로직이 실행되는 계층. 트랜잭션 설정 계층.
+- xxxService : 서비스. 비즈니스 로직이 실행되는 계층. 트랜잭션 설정 계층. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/service/SampleService.java)
 ~~~
 @Service
 @RequiredArgsConstructor
@@ -94,7 +94,7 @@ public class SampleService {
 }
 ~~~
 
-- xxxMapper : 매퍼. MyBatis Mapper Interface.
+- xxxMapper : 매퍼. MyBatis Mapper Interface. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/mapper/SampleMapper.java)
 ~~~
 @Mapper
 public interface SampleMapper {
@@ -112,6 +112,6 @@ public interface SampleMapper {
 
 ### 3. Exception Handling
 - Exception은 ExceptionHanlder에서 공통으로 처리
-- Controller에서 발생한 Exception은 ControllerExceptionHandler에서 처리하여 에러페이지로 리다이렉트
-- ApiController에서 발생한 Exception은 RestControllerExceptionHandler에서 처리하여 적합한 Http Status 반환
+- Controller에서 발생한 Exception은 ControllerExceptionHandler에서 처리하여 에러페이지로 리다이렉트. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/framework/handler/ControllerExceptionHandler.java)
+- ApiController에서 발생한 Exception은 RestControllerExceptionHandler에서 처리하여 적합한 Http Status 반환 [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/framework/handler/RestControllerExceptionHandler.java)
 - 가능하면 Exception은 RuntimeException으로 생성하여 Check 로직 제거
