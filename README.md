@@ -110,6 +110,27 @@ public interface SampleMapper {
 }
 ~~~
 
+- Entity : 엔티티. lombok을 사용하여 코드 간소화. 로깅을 위해 toString()을 반드시 구현.
+~~~
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString @Builder
+public class Sample {
+	
+	// All groups. Hibernate default message.
+	@NotEmpty
+	private Integer customerId;
+	
+	// Specific group. custom message.
+	@NotEmpty(groups = Create.class, message = "${valid.msg.not-empty}")
+	private String customerName;
+	
+	private String company;
+
+}
+~~~
+
 ### 3. Exception Handling
 - Exception은 ExceptionHanlder에서 공통으로 처리
 - Controller에서 발생한 Exception은 ControllerExceptionHandler에서 처리하여 에러페이지로 리다이렉트. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/framework/handler/ControllerExceptionHandler.java)
