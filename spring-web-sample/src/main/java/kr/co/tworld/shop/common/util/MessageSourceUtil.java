@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class MessageSourceUtil {
 	 * @param args
 	 * @return
 	 */
-	public String getMessage(final String code, final Object... args) {
+	public String getMessage(final String code, @Nullable final Object... args) {
 		return this.getMessage(code, LocaleContextHolder.getLocale(), args);
 	}
 	
@@ -36,7 +37,7 @@ public class MessageSourceUtil {
 	 * @param args
 	 * @return
 	 */
-	public String getMessage(final String code, final Locale locale, final Object... args) {
+	public String getMessage(final String code, final Locale locale, @Nullable final Object... args) {
 		return this.messageSource.getMessage(code, args, locale);
 	}
 	
