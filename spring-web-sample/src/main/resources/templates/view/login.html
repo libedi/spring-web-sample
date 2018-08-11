@@ -6,7 +6,7 @@
 </head>
 <body>
 <section>
-	<form id="form">
+	<form id="form" onsubmit="return false;">
 		<fieldset>
 			<label for="username">ID</label>
 			<input type="text" id="username" name="username"><br>
@@ -14,9 +14,12 @@
 			<input type="password" id="password" name="password">
 		</fieldset>
 		<button id="login">Sign In</button>
+		<button id="customer">Move to Customer Page</button>
 	</form>
 </section>
 
+<script data-th-src="@{/webjars/jquery/jquery.min.js}" src="/webjars/jquery/jquery.min.js"></script>
+<script data-th-src="@{/js/common/common.js}" src="/js/common/common.js"></script>
 <script>
 $(function(){
 	"use strict";
@@ -29,7 +32,8 @@ $(function(){
 			data: JSON.stringify( $("#form").serializeObject() ),
 			contentType: "application/json;charset=UTF-8",
 			success: function(result, status, xhr) {
-				const jwt = xhr.getResponseHeader("Authentication");
+				const jwt = xhr.getResponseHeader("Authorization");
+				console.log(jwt);
 				sessionStorage.setItem("jwt", jwt);
 			},
 			error: function(xhr, status, err) {
@@ -39,6 +43,10 @@ $(function(){
 				}
 			}
 		});
+	});
+	
+	$("#customer").click(function(){
+		location.href = "/view/sample/customer?token=" + sessionStorage.getItem("jwt");
 	});
 });
 </script>

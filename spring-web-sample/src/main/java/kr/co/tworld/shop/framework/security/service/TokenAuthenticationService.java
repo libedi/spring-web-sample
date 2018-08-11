@@ -62,7 +62,8 @@ public class TokenAuthenticationService {
 	 * @return
 	 */
 	public Authentication getAuthentication(final HttpServletRequest request) {
-		final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		final String token = StringUtils.contains(request.getQueryString(), "token") ?
+				request.getParameter("token") : request.getHeader(HttpHeaders.AUTHORIZATION);
 		
 		if(StringUtils.isNotEmpty(token)) {
 			final Claims claims = Jwts.parser()
