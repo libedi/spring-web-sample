@@ -73,10 +73,12 @@ public class SampleApiController {
 	 * update customer
 	 * @param sample
 	 */
-	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
+	@RequestMapping(path = "/{customerId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public void updateCustomer(@RequestBody @Validated(Update.class) final Sample sample) {
+	public void updateCustomer(@PathVariable final int customerId,
+			@RequestBody @Validated(Update.class) final Sample sample) {
+		sample.setCustomerId(customerId);
 		this.sampleService.updateCustomer(sample);
 	}
 
