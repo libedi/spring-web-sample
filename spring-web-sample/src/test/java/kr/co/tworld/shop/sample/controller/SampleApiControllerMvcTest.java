@@ -1,7 +1,7 @@
 package kr.co.tworld.shop.sample.controller;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,7 +35,7 @@ import kr.co.tworld.shop.sample.service.SampleService;
  *
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(SampleApiController.class)
+@WebMvcTest(controllers = SampleApiController.class, secure = false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SampleApiControllerMvcTest {
 
@@ -50,8 +50,8 @@ public class SampleApiControllerMvcTest {
 	
 	@Test
 	public void test01_getCustomerList() throws Exception {
-		given(this.sampleService.getCustomerList()).willReturn(Arrays.asList(new Sample()));
-		this.mockMvc.perform(get("/api/sample").accept(MediaType.APPLICATION_JSON_UTF8))
+		when(this.sampleService.getCustomerList()).thenReturn(Arrays.asList(new Sample()));
+		this.mockMvc.perform(get("/api/samples").accept(MediaType.APPLICATION_JSON_UTF8))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -64,9 +64,9 @@ public class SampleApiControllerMvcTest {
 		int customerId = 1;
 		String customerUser = "user1";
 		String company = "company1";
-		given(this.sampleService.getCustomer(customerId))
-				.willReturn(Sample.builder().customerId(customerId).customerName(customerUser).company(company).build());
-		this.mockMvc.perform(get("/api/sample/" + customerId).accept(MediaType.APPLICATION_JSON_UTF8))
+		when(this.sampleService.getCustomer(customerId))
+				.thenReturn(Sample.builder().customerId(customerId).customerName(customerUser).company(company).build());
+		this.mockMvc.perform(get("/api/samples/" + customerId).accept(MediaType.APPLICATION_JSON_UTF8))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -83,8 +83,8 @@ public class SampleApiControllerMvcTest {
 				.customerName("user1")
 				.company("company1")
 				.build();
-		willDoNothing().given(this.sampleService).createCustomer(expected);
-		this.mockMvc.perform(post("/api/sample")
+		doNothing().when(this.sampleService).createCustomer(expected);
+		this.mockMvc.perform(post("/api/samples")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(this.objectMapper.writeValueAsBytes(expected)))
 				.andDo(print())
@@ -94,13 +94,14 @@ public class SampleApiControllerMvcTest {
 	
 	@Test
 	public void test04_updateCustomer() throws Exception {
+		int customerId = 1;
 		Sample expected = Sample.builder()
-				.customerId(1)
+				.customerId(customerId)
 				.customerName("user1")
 				.company("company1")
 				.build();
-		willDoNothing().given(this.sampleService).updateCustomer(expected);
-		this.mockMvc.perform(put("/api/sample")
+		doNothing().when(this.sampleService).updateCustomer(expected);
+		this.mockMvc.perform(put("/api/samples/" + customerId)
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(this.objectMapper.writeValueAsBytes(expected)))
 				.andDo(print())
@@ -111,8 +112,8 @@ public class SampleApiControllerMvcTest {
 	@Test
 	public void test05_deleteCustomer() throws Exception {
 		int customerId = 1;
-		willDoNothing().given(this.sampleService).deleleCustomer(customerId);
-		this.mockMvc.perform(delete("/api/sample/" + customerId))
+		doNothing().when(this.sampleService).deleleCustomer(customerId);
+		this.mockMvc.perform(delete("/api/samples/" + customerId))
 				.andDo(print())
 				.andExpect(status().isOk())
 		;

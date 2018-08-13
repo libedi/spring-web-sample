@@ -23,7 +23,7 @@ import lombok.ToString;
 public class Sample {
 	
 	// All groups. Hibernate default message.
-	@NotEmpty(groups = Update.class)
+	@NotEmpty
 	private Integer customerId;
 	
 	// Specific group. custom message.

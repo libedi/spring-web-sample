@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -20,6 +23,7 @@ import lombok.ToString;
 @Builder @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(Include.NON_EMPTY)
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = -3417934467310622386L;

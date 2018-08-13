@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import kr.co.tworld.shop.common.exception.ResourceConflictException;
+import kr.co.tworld.shop.framework.security.model.User;
 import kr.co.tworld.shop.sample.model.Sample;
 import kr.co.tworld.shop.sample.service.SampleService;
 
@@ -36,13 +37,14 @@ public class SampleApiControllerTest {
 		this.controller = new SampleApiController(this.service);
 	}
 	
-//	@Test
-//	public void test01_getCustomerList() throws Exception {
-//		when(this.service.getCustomerList()).thenReturn(Collections.emptyList());
-//		List<Sample> actual = this.controller.getCustomerList();
-//		assertNotNull(actual);
-//		assertTrue(actual instanceof List);
-//	}
+	@Test
+	public void test01_getCustomerList() throws Exception {
+		when(this.service.getCustomerList()).thenReturn(Collections.emptyList());
+		User mockUser = User.builder().username("admin").password("password").build();
+		List<Sample> actual = this.controller.getCustomerList(mockUser);
+		assertNotNull(actual);
+		assertTrue(actual instanceof List);
+	}
 	
 	@Test
 	public void test02_getCustomer() throws Exception {
@@ -90,7 +92,7 @@ public class SampleApiControllerTest {
 				.customerName("user1")
 				.company("company1")
 				.build();
-		this.controller.updateCustomer(sample);
+		this.controller.updateCustomer(customerId, sample);
 	}
 	
 	@Test

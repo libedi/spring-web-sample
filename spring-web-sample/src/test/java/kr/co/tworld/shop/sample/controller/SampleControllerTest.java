@@ -1,7 +1,5 @@
 package kr.co.tworld.shop.sample.controller;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -24,12 +22,10 @@ public class SampleControllerTest {
 		this.controller = new SampleController();
 	}
 	
-//	@Test
-//	public void test01_viewCustomer() throws Exception {
-//		Model model = new ConcurrentModel();
-//		String expected = "sample/customer";
-//		String actual = this.controller.viewCustomer(model);
-//		assertEquals(expected, actual);
-//	}
+	@Test
+	public void test01_viewCustomer() throws Exception {
+		Model model = new ConcurrentModel();
+		this.controller.viewCustomer(model);
+	}
 
 }

@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
  *
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(SampleController.class)
+@WebMvcTest(controllers = SampleController.class, secure = false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SampleControllerMvcTest {
 
@@ -30,10 +30,10 @@ public class SampleControllerMvcTest {
 	
 	@Test
 	public void test01_viewCustomer() throws Exception {
-		this.mockMvc.perform(get("/view/sample").accept(MediaType.TEXT_HTML).characterEncoding("UTF-8"))
+		this.mockMvc.perform(get("/view/sample/customer").accept(MediaType.TEXT_HTML).characterEncoding("UTF-8"))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(view().name("sample/customer"))
+				.andExpect(view().name("view/sample/customer"))
 		;
 	}
 }

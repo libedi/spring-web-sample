@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -33,19 +38,39 @@ public class SampleControllerRestTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
-	@Autowired
-	public void tes01_getCustomer() throws Exception {
-		List<Sample> list = this.restTemplate
-				.exchange("/api/samples", HttpMethod.GET, null, new ParameterizedTypeReference<List<Sample>>() {})
+	private String jwt;
+	
+	@Before
+	public void init() throws Exception {
+		final ResponseEntity<Void> resp = this.restTemplate.postForEntity("/api/login",
+				"{\"username\":\"admin\", \"password\":\"password\"}", Void.class);
+		if (resp.getStatusCode() == HttpStatus.OK) {
+			jwt = resp.getHeaders().get(HttpHeaders.AUTHORIZATION).stream().findFirst().get();
+		}
+	}
+	
+	@Test
+	public void test01_getCustomer() throws Exception {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.AUTHORIZATION, jwt);
+		final HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+		final List<Sample> list = this.restTemplate
+				.exchange("/api/samples", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Sample>>() {})
 				.getBody();
 		assertThat(list).allMatch(s -> s instanceof Sample);
 	}
 	
 	@Test
 	public void test02_putCustomer() throws Exception {
-		Sample expected = Sample.builder().customerId(1).customerName("updateUser1").company("updateCompany1").build();
-		this.restTemplate.put("/api/samples", expected);
-		Sample actual = this.restTemplate.getForObject("/api/samples/" + expected.getCustomerId(), Sample.class);
+		final int customerId = 1;
+		final Sample expected = Sample.builder().customerId(customerId).customerName("updateUser1").company("updateCompany1").build();
+		
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.AUTHORIZATION, jwt);
+		final HttpEntity<Sample> httpEntity = new HttpEntity<Sample>(expected, headers);
+		
+		this.restTemplate.exchange("/api/samples/" + customerId, HttpMethod.PUT, httpEntity, Void.class);
+		Sample actual = this.restTemplate.exchange("/api/samples/" + customerId, HttpMethod.GET, httpEntity, Sample.class).getBody();
 		assertThat(actual).isEqualToComparingFieldByField(expected);
 	}
 }
