@@ -53,7 +53,7 @@ public class SampleControllerRestTest {
 	public void test01_getCustomer() throws Exception {
 		final HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.AUTHORIZATION, jwt);
-		final HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+		final HttpEntity<Void> httpEntity = new HttpEntity<Void>(headers);
 		final List<Sample> list = this.restTemplate
 				.exchange("/api/samples", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Sample>>() {})
 				.getBody();
