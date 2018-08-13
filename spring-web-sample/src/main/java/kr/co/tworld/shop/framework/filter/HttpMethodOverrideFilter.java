@@ -18,13 +18,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class HttpMethodOverrideFilter extends OncePerRequestFilter {
 	
-	private static final String HTTP_METHOD_OVERRIDE_HEADER_NAME = "X-HTTP-Method-Override";
+	private final String HTTP_METHOD_OVERRIDE_HEADER_NAME = "X-HTTP-Method-Override";
 
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
 			final FilterChain filterChain) throws ServletException, IOException {
 		
-		final String headerValue = request.getHeader(HTTP_METHOD_OVERRIDE_HEADER_NAME);
+		final String headerValue = request.getHeader(this.HTTP_METHOD_OVERRIDE_HEADER_NAME);
 		if(StringUtils.isNotEmpty(headerValue) && StringUtils.equalsIgnoreCase(request.getMethod(), "POST")) {
 			filterChain.doFilter(new HttpMethodRequestWrapper(request, headerValue), response);
 		} else {
