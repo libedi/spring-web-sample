@@ -20,6 +20,7 @@
 - 발급된 인증토큰은 sessionStorage에 저장
 - 요청시 Request Header의 Authorization 헤더에 발급된 인증토큰 전송
 - 로그인 실패시, 인증토큰 만료 및 인증토큰 오류시 401 응답 status 반환
+- 간단한 토큰 인증방식으로 실구현시 OAuth 2 인증방식으로 전환 필요 [[Spring Security OAuth Project]](https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
 
 ## 4. 프로젝트 구조
 
