@@ -4,10 +4,10 @@ import java.util.Map;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -86,18 +86,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 	
 	/**
-	 * Embeded Server Error page
+	 * Embedded Server Error page
 	 * @return
 	 */
 	@Bean
-	public ConfigurableServletWebServerFactory webServerFactory() {
-		TomcatServletWebServerFactory webServerFactory = new TomcatServletWebServerFactory();
-		webServerFactory.addErrorPages(
-				new ErrorPage(HttpStatus.BAD_REQUEST, "/error/400"),
-				new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401"),
-				new ErrorPage(HttpStatus.FORBIDDEN, "/error/403"),
-				new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"),
-				new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
-		return webServerFactory;
+	public WebServerFactoryCustomizer<TomcatServletWebServerFactory> embeddedTomcatServerFactory() {
+		return factory -> {
+			factory.addErrorPages(
+					new ErrorPage(HttpStatus.BAD_REQUEST, "/error/400"),
+					new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401"),
+					new ErrorPage(HttpStatus.FORBIDDEN, "/error/403"),
+					new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"),
+					new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
+		};
 	}
 }
