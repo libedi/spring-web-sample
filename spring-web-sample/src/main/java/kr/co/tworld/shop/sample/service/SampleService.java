@@ -91,6 +91,9 @@ public class SampleService {
 		// set merge info : Standard Area Reference
 		excelData.setMergeStrings("A1:C1");
 		
+		// set merge info : CellRangeAddress
+//		excelData.setMergeInfos(new int[] {0, 0, 0, 2});
+		
 		// create data
 		list.stream().forEach(c -> {
 			excelData.addRowDatas(
