@@ -79,7 +79,7 @@ public class SampleService {
 	 * @return
 	 */
 	public ExcelData getCustomerListExcel() {
-		List<Sample> list = this.getCustomerList();
+		final List<Sample> list = this.getCustomerList();
 		
 		// create excel data & sheet name
 		final ExcelData excelData = new ExcelData("customers");
@@ -87,12 +87,13 @@ public class SampleService {
 		// create header names
 		excelData.addRowHeaders("고객정보리스트", "", "");
 		excelData.addRowHeaders("고객ID", "고객명", "업체명");
+		excelData.addRowHeaders("", "고객명", "업체명");
 		
 		// set merge info : Standard Area Reference
-		excelData.setMergeStrings("A1:C1");
+		excelData.setMergeStrings("A1:C1", "A2:A3");
 		
 		// set merge info : CellRangeAddress
-//		excelData.setMergeInfos(new int[] {0, 0, 0, 2});
+//		excelData.setMergeInfos(new int[] {0, 0, 0, 2}, new int[] {1, 2, 0, 0});
 		
 		// create data
 		list.stream().forEach(c -> {
