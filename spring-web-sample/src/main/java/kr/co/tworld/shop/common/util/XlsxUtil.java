@@ -33,6 +33,11 @@ import org.springframework.util.CollectionUtils;
 
 import kr.co.tworld.shop.common.model.ColumnType;
 
+/**
+ * Excel Utility class
+ * @author Sangjun, Park
+ *
+ */
 public class XlsxUtil {
 	
 	private final String CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -130,24 +135,25 @@ public class XlsxUtil {
 	 * @param rowIdx
 	 * @param cellStyleMap
 	 */
-	public void createCell(final Workbook workbook, final Sheet sheet, final List<String> cellData, final List<ColumnType> typeList, int rowIdx,
-			Map<ColumnType, CellStyle> cellStyleMap) {
-		
-		if(CollectionUtils.isEmpty(cellData) == false) {
-			Row row = sheet.createRow(rowIdx);
-			CreationHelper helper = workbook.getCreationHelper();
-			
-			for(int i=0, columnSize=cellData.size(); i<columnSize; i++) {
+	public void createCell(final Workbook workbook, final Sheet sheet, final List<String> cellData,
+			final List<ColumnType> typeList, final int rowIdx, final Map<ColumnType, CellStyle> cellStyleMap) {
+
+		if (CollectionUtils.isEmpty(cellData) == false) {
+			final Row row = sheet.createRow(rowIdx);
+			final CreationHelper helper = workbook.getCreationHelper();
+
+			for (int i = 0, columnSize = cellData.size(); i < columnSize; i++) {
 				Cell cell = row.createCell(i);
-				
-				if(CollectionUtils.isEmpty(typeList)) {		// typeList가 null로 넘어오면 Header
+
+				if (CollectionUtils.isEmpty(typeList)) { // typeList가 null로 넘어오면 Header
 					cell.setCellStyle(cellStyleMap.get(ColumnType.HEADER));
 					cell.setCellValue(helper.createRichTextString(cellData.get(i)));
 				} else {
 					cell.setCellStyle(cellStyleMap.get(typeList.get(i)));
-					
-					if(typeList.get(i) == ColumnType.INTEGER || typeList.get(i) == ColumnType.DOUBLE) {
-						cell.setCellValue(Double.valueOf(StringUtils.isNotEmpty(cellData.get(i)) ? cellData.get(i) : "0"));
+
+					if (typeList.get(i) == ColumnType.INTEGER || typeList.get(i) == ColumnType.DOUBLE) {
+						cell.setCellValue(
+								Double.valueOf(StringUtils.isNotEmpty(cellData.get(i)) ? cellData.get(i) : "0"));
 					} else {
 						cell.setCellValue(helper.createRichTextString(this.replaceDateFormat(
 								StringUtils.isNotEmpty(cellData.get(i)) ? cellData.get(i) : "", typeList.get(i))));
@@ -191,7 +197,7 @@ public class XlsxUtil {
 	 * @param mergeInfoList
 	 */
 	public void mergeCellByAddress(final Sheet sheet, final List<CellRangeAddress> mergeInfoList) {
-		if(!CollectionUtils.isEmpty(mergeInfoList)) {
+		if(CollectionUtils.isEmpty(mergeInfoList) == false) {
 			for(CellRangeAddress rangeAddress : mergeInfoList) {
 				sheet.addMergedRegion(rangeAddress);
 			}
@@ -258,7 +264,7 @@ public class XlsxUtil {
 	 * @return
 	 */
 	private CellStyle numberCellStyle(final Workbook workbook) {
-		CellStyle cellStyle = this.defaultCellStyle(workbook);
+		final CellStyle cellStyle = this.defaultCellStyle(workbook);
 		cellStyle.setAlignment(HorizontalAlignment.RIGHT);
 		cellStyle.setDataFormat(workbook.createDataFormat().getFormat("#,##0"));
 		return cellStyle;
@@ -270,7 +276,7 @@ public class XlsxUtil {
 	 * @return
 	 */
 	private CellStyle doubleCellStyle(final Workbook workbook) {
-		CellStyle cellStyle = this.defaultCellStyle(workbook);
+		final CellStyle cellStyle = this.defaultCellStyle(workbook);
 		cellStyle.setAlignment(HorizontalAlignment.RIGHT);
 		cellStyle.setDataFormat(workbook.createDataFormat().getFormat("#,##0.00"));
 		return cellStyle;
@@ -282,8 +288,7 @@ public class XlsxUtil {
 	 * @return
 	 */
 	private CellStyle dateCellStyle(final Workbook workbook) {
-		CellStyle cellStyle = this.defaultCellStyle(workbook);
-		return cellStyle;
+		return this.defaultCellStyle(workbook);
 	}
 	
 	/**
@@ -292,8 +297,7 @@ public class XlsxUtil {
 	 * @return
 	 */
 	private CellStyle datehhmmCellStyle(final Workbook workbook) {
-		CellStyle cellStyle = this.defaultCellStyle(workbook);
-		return cellStyle;
+		return this.defaultCellStyle(workbook);
 	}
 	
 	/**

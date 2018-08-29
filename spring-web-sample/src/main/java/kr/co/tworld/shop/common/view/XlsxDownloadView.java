@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * XlsxDownloadView
+ * Excel Download View component class
  * @author Sangjun, Park
  *
  */
@@ -39,7 +39,7 @@ public class XlsxDownloadView extends AbstractXlsxCustomView {
 		final ExcelData excelData = (ExcelData) model.get("excelData");
 		
 		// 시트정보
-		Sheet sheet = workbook.createSheet(excelData.getSheetName());
+		final Sheet sheet = workbook.createSheet(excelData.getSheetName());
 		this.xlsxUtil.defaultSheetStyle(sheet);
 		
 		// 헤더생성
