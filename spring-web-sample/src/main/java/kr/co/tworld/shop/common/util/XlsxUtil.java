@@ -31,7 +31,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 
-import kr.co.tworld.shop.common.model.ExcelType;
+import kr.co.tworld.shop.common.model.ColumnType;
 
 public class XlsxUtil {
 	
@@ -92,7 +92,7 @@ public class XlsxUtil {
 		if (StringUtils.contains(userAgent, "msie") || StringUtils.contains(userAgent, "trident")
 				|| StringUtils.contains(userAgent, "edge/")) {
 			// MS IE, Edge
-			return URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "\\ ");
+			return URLEncoder.encode(filename, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "\\ ");
 		} else {
 			// FF, Opera, Safari, Chrome
 			return new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
@@ -109,10 +109,10 @@ public class XlsxUtil {
 	 * @return rowIdx - last row index
 	 */
 	public int createCell(final Workbook workbook, final Sheet sheet, final List<List<String>> dataList,
-			final List<ExcelType> typeList, int rowIdx) {
+			final List<ColumnType> typeList, int rowIdx) {
 		
 		if(CollectionUtils.isEmpty(dataList) == false) {
-			final Map<ExcelType, CellStyle> cellStyleMap = this.getCellStyleMap(workbook);
+			final Map<ColumnType, CellStyle> cellStyleMap = this.getCellStyleMap(workbook);
 			
 			for(List<String> cellData : dataList) {
 				this.createCell(workbook, sheet, cellData, typeList, rowIdx++, cellStyleMap);
@@ -130,8 +130,8 @@ public class XlsxUtil {
 	 * @param rowIdx
 	 * @param cellStyleMap
 	 */
-	public void createCell(final Workbook workbook, final Sheet sheet, final List<String> cellData, final List<ExcelType> typeList, int rowIdx,
-			Map<ExcelType, CellStyle> cellStyleMap) {
+	public void createCell(final Workbook workbook, final Sheet sheet, final List<String> cellData, final List<ColumnType> typeList, int rowIdx,
+			Map<ColumnType, CellStyle> cellStyleMap) {
 		
 		if(CollectionUtils.isEmpty(cellData) == false) {
 			Row row = sheet.createRow(rowIdx);
@@ -141,12 +141,12 @@ public class XlsxUtil {
 				Cell cell = row.createCell(i);
 				
 				if(CollectionUtils.isEmpty(typeList)) {		// typeList가 null로 넘어오면 Header
-					cell.setCellStyle(cellStyleMap.get(ExcelType.HEADER));
+					cell.setCellStyle(cellStyleMap.get(ColumnType.HEADER));
 					cell.setCellValue(helper.createRichTextString(cellData.get(i)));
 				} else {
 					cell.setCellStyle(cellStyleMap.get(typeList.get(i)));
 					
-					if(typeList.get(i) == ExcelType.INTEGER || typeList.get(i) == ExcelType.DOUBLE) {
+					if(typeList.get(i) == ColumnType.INTEGER || typeList.get(i) == ColumnType.DOUBLE) {
 						cell.setCellValue(Double.valueOf(StringUtils.isNotEmpty(cellData.get(i)) ? cellData.get(i) : "0"));
 					} else {
 						cell.setCellValue(helper.createRichTextString(this.replaceDateFormat(
@@ -212,15 +212,15 @@ public class XlsxUtil {
 	 * @param workbook
 	 * @return
 	 */
-	public Map<ExcelType, CellStyle> getCellStyleMap(final Workbook workbook) {
-		final Map<ExcelType, CellStyle> map = new HashMap<>();
-		map.put(ExcelType.HEADER, this.headerCellStyle(workbook));
-		map.put(ExcelType.STRING, this.stringCellStyle(workbook));
-		map.put(ExcelType.INTEGER, this.numberCellStyle(workbook));
-		map.put(ExcelType.DOUBLE, this.doubleCellStyle(workbook));
-		map.put(ExcelType.DATE, this.dateCellStyle(workbook));
-		map.put(ExcelType.DATEHHMM, this.datehhmmCellStyle(workbook));
-		map.put(ExcelType.DATETIME, this.datetimeCellStyle(workbook));
+	public Map<ColumnType, CellStyle> getCellStyleMap(final Workbook workbook) {
+		final Map<ColumnType, CellStyle> map = new HashMap<>();
+		map.put(ColumnType.HEADER, this.headerCellStyle(workbook));
+		map.put(ColumnType.STRING, this.stringCellStyle(workbook));
+		map.put(ColumnType.INTEGER, this.numberCellStyle(workbook));
+		map.put(ColumnType.DOUBLE, this.doubleCellStyle(workbook));
+		map.put(ColumnType.DATE, this.dateCellStyle(workbook));
+		map.put(ColumnType.DATEHHMM, this.datehhmmCellStyle(workbook));
+		map.put(ColumnType.DATETIME, this.datetimeCellStyle(workbook));
 		return map;
 	}
 	
@@ -327,7 +327,7 @@ public class XlsxUtil {
 	 * @param excelType
 	 * @return
 	 */
-	private String replaceDateFormat(final String data, final ExcelType excelType) {
+	private String replaceDateFormat(final String data, final ColumnType excelType) {
 		switch(excelType) {
 		case DATE:
 			return data.replaceAll(REGEXP_DATE, "$1-$2-$3");

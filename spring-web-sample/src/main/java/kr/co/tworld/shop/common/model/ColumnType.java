@@ -5,7 +5,7 @@ package kr.co.tworld.shop.common.model;
  * @author Sangjun, Park
  *
  */
-public enum ExcelType {
+public enum ColumnType {
 
 	/** Column type : String */
 	STRING
