@@ -83,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/view/login").permitAll()
+				.antMatchers(HttpMethod.GET, "/view/sample/excel").permitAll()
 				.antMatchers(HttpMethod.GET, "/error/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
@@ -104,7 +105,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/js/**")
 			.antMatchers("/favicon.ico");
 	}
-	
-	
 	
 }

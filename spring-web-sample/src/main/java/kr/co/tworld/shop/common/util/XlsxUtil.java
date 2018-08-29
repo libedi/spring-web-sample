@@ -29,6 +29,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import kr.co.tworld.shop.common.model.ColumnType;
@@ -38,6 +39,7 @@ import kr.co.tworld.shop.common.model.ColumnType;
  * @author Sangjun, Park
  *
  */
+@Component
 public class XlsxUtil {
 	
 	private final String CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
