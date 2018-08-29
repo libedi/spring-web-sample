@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import kr.co.tworld.shop.common.model.ExcelData;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class XlsxDownloadView extends AbstractXlsxCustomView {
 	
