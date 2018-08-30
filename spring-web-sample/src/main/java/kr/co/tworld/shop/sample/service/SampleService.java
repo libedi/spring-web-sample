@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.tworld.shop.common.exception.ResourceConflictException;
+import kr.co.tworld.shop.common.model.ColumnType;
+import kr.co.tworld.shop.common.model.ExcelData;
 import kr.co.tworld.shop.sample.mapper.SampleMapper;
 import kr.co.tworld.shop.sample.model.Sample;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +72,44 @@ public class SampleService {
 	@Transactional
 	public void deleleCustomer(final int customerId) {
 		this.sampleMapper.deleteCustomer(customerId);
+	}
+
+	/**
+	 * create excel data
+	 * @return
+	 */
+	public ExcelData getCustomerListExcel() {
+		final List<Sample> list = this.getCustomerList();
+		
+		// create excel data & sheet name
+		final ExcelData excelData = new ExcelData("customers");
+		
+		// create header names
+		excelData.addRowHeaders("고객정보리스트", "", "");
+		excelData.addRowHeaders("고객ID", "고객명", "업체명");
+		excelData.addRowHeaders("", "고객명", "업체명");
+		
+		// set merge info : Standard Area Reference
+		excelData.setMergeStrings("A1:C1", "A2:A3");
+		
+		// set merge info : CellRangeAddress
+//		excelData.setMergeInfos(new int[] {0, 0, 0, 2}, new int[] {1, 2, 0, 0});
+		
+		// create data
+		list.stream().forEach(c -> {
+			excelData.addRowDatas(
+					String.valueOf(c.getCustomerId()),
+					c.getCustomerName(),
+					c.getCompany());
+		});
+		
+		// set column type
+		excelData.setColumnTypes(
+				ColumnType.INTEGER,
+				ColumnType.STRING,
+				ColumnType.STRING);
+		
+		return excelData;
 	}
 
 }

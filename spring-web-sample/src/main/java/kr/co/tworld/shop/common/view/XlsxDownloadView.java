@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import kr.co.tworld.shop.common.model.ExcelData;
@@ -16,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * XlsxDownloadView
+ * Excel Download View component class
  * @author Sangjun, Park
  *
  */
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class XlsxDownloadView extends AbstractXlsxCustomView {
 	
@@ -37,7 +39,7 @@ public class XlsxDownloadView extends AbstractXlsxCustomView {
 		final ExcelData excelData = (ExcelData) model.get("excelData");
 		
 		// 시트정보
-		Sheet sheet = workbook.createSheet(excelData.getSheetName());
+		final Sheet sheet = workbook.createSheet(excelData.getSheetName());
 		this.xlsxUtil.defaultSheetStyle(sheet);
 		
 		// 헤더생성

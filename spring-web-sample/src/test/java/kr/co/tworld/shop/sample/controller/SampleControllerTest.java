@@ -19,7 +19,7 @@ public class SampleControllerTest {
 	
 	@Before
 	public void init() throws Exception {
-		this.controller = new SampleController();
+		this.controller = new SampleController(null, null);
 	}
 	
 	@Test

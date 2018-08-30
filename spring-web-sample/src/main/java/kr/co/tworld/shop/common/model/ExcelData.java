@@ -21,7 +21,7 @@ public class ExcelData {
 	private String sheetName = "sheet1";
 	private List<List<String>> headerList;
 	private List<List<String>> dataList;
-	private List<ExcelType> typeList;
+	private List<ColumnType> typeList;
 	private List<String> mergeList;
 	private List<CellRangeAddress> mergeInfoList;
 	
@@ -55,21 +55,21 @@ public class ExcelData {
 	
 	/**
 	 * 컬럼 타입 추가
-	 * @param excelType
+	 * @param columnType
 	 */
-	public void addExcelType(final ExcelType excelType) {
+	public void addColumnType(final ColumnType columnType) {
 		if(CollectionUtils.isEmpty(typeList)) {
 			this.typeList = new ArrayList<>();
 		}
-		this.typeList.add(excelType);
+		this.typeList.add(columnType);
 	}
 	
 	/**
 	 * 컬럼 타입 리스트 설정
-	 * @param excelTypes
+	 * @param columnTypes
 	 */
-	public void setExcelTypes(final ExcelType... excelTypes) {
-		this.typeList = new ArrayList<>(Arrays.asList(excelTypes));
+	public void setColumnTypes(final ColumnType... columnTypes) {
+		this.typeList = new ArrayList<>(Arrays.asList(columnTypes));
 	}
 	
 	/**

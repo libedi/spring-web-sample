@@ -86,7 +86,7 @@ public abstract class AbstractXlsxCustomView extends AbstractView {
 		if (StringUtils.contains(userAgent, "msie") || StringUtils.contains(userAgent, "trident")
 				|| StringUtils.contains(userAgent, "edge/")) {
 			// MS IE, Edge
-			return URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "\\ ");
+			return URLEncoder.encode(filename, StandardCharsets.UTF_8.toString()).replaceAll("\\+", "\\ ");
 		} else {
 			// FF, Opera, Safari, Chrome
 			return new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
