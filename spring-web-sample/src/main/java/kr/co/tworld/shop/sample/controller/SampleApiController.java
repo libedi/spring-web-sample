@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.Page;
+
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Update;
 import kr.co.tworld.shop.framework.security.model.User;
@@ -36,6 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SampleApiController {
 	
 	private final SampleService sampleService;
+	
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * get customer list
@@ -90,6 +96,13 @@ public class SampleApiController {
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteCustomer(@PathVariable final int customerId) {
 		this.sampleService.deleleCustomer(customerId);
+	}
+	
+	@GetMapping("/paging")
+	public Page<Sample> getCustomersByPaging() throws JsonProcessingException {
+		Page<Sample> page = this.sampleService.getCustomersByPaging(1, 3);
+		log.debug("Page Info: {}", this.objectMapper.writeValueAsString(page));
+		return page;
 	}
 
 }

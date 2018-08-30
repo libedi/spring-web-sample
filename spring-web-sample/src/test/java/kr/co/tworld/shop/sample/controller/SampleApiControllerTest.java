@@ -15,6 +15,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import kr.co.tworld.shop.common.exception.ResourceConflictException;
 import kr.co.tworld.shop.framework.security.model.User;
 import kr.co.tworld.shop.sample.model.Sample;
@@ -34,7 +36,7 @@ public class SampleApiControllerTest {
 	@Before
 	public void init() throws Exception {
 		this.service = mock(SampleService.class);
-		this.controller = new SampleApiController(this.service);
+		this.controller = new SampleApiController(this.service, new ObjectMapper());
 	}
 	
 	@Test
