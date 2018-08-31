@@ -178,6 +178,7 @@ PageInfo<Sample> pageInfo = PageHelper.startPage(1, 10).doSelectPageInfo(() -> s
 	- closeConn : DB connection을 닫을지 여부 설정. 기본값은 true
 
 ~~~
+# PageHelper Configuration
 pagehelper.dialect=com.sample.CustomDialect
 pagehelper.helper-dialect=h2
 pagehelper.offset-as-page-num=true
