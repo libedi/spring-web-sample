@@ -6,8 +6,8 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import kr.co.tworld.shop.common.exception.ResourceConflictException;
 import kr.co.tworld.shop.common.model.ColumnType;
@@ -115,8 +115,8 @@ public class SampleService {
 		return excelData;
 	}
 	
-	public Page<Sample> getCustomersByPaging(final int pageNo, final int PageSize) {
-		return PageHelper.startPage(pageNo, PageSize).doSelectPage(() -> this.sampleMapper.selectCustomer(null));
+	public PageInfo<Sample> getCustomersByPaging(final int pageNo, final int PageSize) {
+		return PageHelper.startPage(pageNo, PageSize).doSelectPageInfo(() -> this.sampleMapper.selectCustomer(null));
 	}
 
 }

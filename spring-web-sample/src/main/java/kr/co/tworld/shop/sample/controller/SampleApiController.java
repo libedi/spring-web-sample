@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Update;
@@ -99,8 +99,8 @@ public class SampleApiController {
 	}
 	
 	@GetMapping("/paging")
-	public Page<Sample> getCustomersByPaging() throws JsonProcessingException {
-		Page<Sample> page = this.sampleService.getCustomersByPaging(1, 3);
+	public PageInfo<Sample> getCustomersByPaging() throws JsonProcessingException {
+		PageInfo<Sample> page = this.sampleService.getCustomersByPaging(1, 3);
 		log.debug("Page Info: {}", this.objectMapper.writeValueAsString(page));
 		return page;
 	}
