@@ -13,6 +13,7 @@
 - Jasypt
 - jjwt
 - Webjars
+- PageHelper
 
 ## 3. 인증
 - 세션 기반의 폼 로그인 방식이 아닌, Multi Device 로그인을 위해 Stateless한 Token login 방식
