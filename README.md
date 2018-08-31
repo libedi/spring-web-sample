@@ -143,3 +143,50 @@ public class Sample {
 - JSR-303 지원
 - @Validated 애노테이션을 이용하여 validation group 지정 가능.
 - Validation 메세지 작성시 메세지 프로퍼티 사용 가능.
+
+### 5. PageHelper
+- lambda 식으로 사용
+~~~
+// PageHelper.startPage(int pageNum, int pageSize)
+Page<Sample> page = PageHelper.startPage(1, 10).doSelectPage(() -> sampleMapper.selectCustomers());
+PageInfo<Sample> pageInfo = PageHelper.startPage(1, 10).doSelectPageInfo(() -> sampleMapper.selectCustomers());
+~~~
+- PageHelper 설정 : [PageHelper Github](https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md#3-pagehelper-parameters)
+	- dialect :
+		1. Custom Dialect를 구성시 설정
+		2. 반드시 com.github.pagehelper.Dialect를 implements 해야함
+		3. full package 경로로 설정.
+		4. 기본값은 com.github.pagehelper.PageHelper
+	- **_helperDialect_** : 특정 데이터베이스를 지정. 미설정시 자동감지.
+		- 지원DB 약어: oracle, mysql, mariadb, sqlite, hsqldb, postgresql, db2, sqlserver, informix, h2, sqlserver2012, derby
+	- offsetAsPageNum :
+		1. MyBatis 페이징 파라미터로 RowBounds를 사용할 때. (Mapper인 경우는 해당X)
+		2. true인 경우, RowBounds의 offset 파라미터가 pageNum으로 사용됨. (원래 offset은 건너뛰는 건수)
+		3. 기본값은 false
+	- rowBoundsWithCount :
+		1. MyBatis 페이징 파라미터로 RowBounds를 사용할 때. (Mapper인 경우는 해당X)
+		2. true인 경우, PageHelper가 Count 쿼리 실행
+		3. 기본값은 false
+	- pageSizeZero : pageSize=0 으로 실행. 기본값은 false
+	- reasonable : true 설정시, pageNum >=0, pageNum < pages 로 실행. 기본값은 false
+	- params : pageNum,pageSize,count,pageSizeZero,reasonable의 에 대한 이름 매핑설정. 굳이 건드릴 필요는 없을듯.
+	- **_supportMethodsArguments_** :
+		1. Mapper 인터페이스로 페이지 매개변수를 전달할 수 있게 함
+		2. Mapper 사용시 true 설정
+		3. 기본값은 false
+	- autoRuntimeDialect : 동적으로 데이터베이스 자동설정. helperDialect보다 우선순위가 높음. 기본값은 false
+	- closeConn : DB connection을 닫을지 여부 설정. 기본값은 true
+
+~~~
+pagehelper.dialect=com.sample.CustomDialect
+pagehelper.helper-dialect=h2
+pagehelper.offset-as-page-num=true
+pagehelper.row-bounds-with-count=true
+pagehelper.page-size-zero=true
+pagehelper.reasonable=true
+pagehelper.params=pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+pagehelper.support-methods-arguments=true
+pagehelper.auto-dialect=true
+pagehelper.auto-runtime-dialect=true
+pagehelper.close-conn=false
+~~~
