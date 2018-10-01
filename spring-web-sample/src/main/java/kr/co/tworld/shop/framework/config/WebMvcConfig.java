@@ -2,6 +2,8 @@ package kr.co.tworld.shop.framework.config;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -23,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.co.tworld.shop.framework.filter.HttpMethodOverrideFilter;
 import kr.co.tworld.shop.framework.model.ErrorResponse;
+import kr.co.tworld.shop.framework.model.SessionScopeModel;
 
 /**
  * Web MVC Configuration
@@ -42,6 +45,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.setValidationMessageSource(messageSource);
 		return localValidatorFactoryBean;
+	}
+	
+	@Bean
+	public ObjectFactory<Object> objectFactory() throws Exception {
+		final ObjectFactoryCreatingFactoryBean objectFactory = new ObjectFactoryCreatingFactoryBean();
+		objectFactory.setTargetBeanName("sessionScopeModel");
+		return objectFactory.getObject();
 	}
 	
 	/**

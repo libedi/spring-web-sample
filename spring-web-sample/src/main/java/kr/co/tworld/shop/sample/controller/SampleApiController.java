@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 
+import kr.co.tworld.shop.framework.model.SessionScopeModel;
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Create;
 import kr.co.tworld.shop.framework.model.ValidationMarkers.Update;
 import kr.co.tworld.shop.framework.security.model.User;
@@ -42,6 +43,8 @@ public class SampleApiController {
 	private final SampleService sampleService;
 	
 	private final ObjectMapper objectMapper;
+	
+	private final SessionScopeModel sessionScopeModel;
 
 	/**
 	 * get customer list
@@ -103,6 +106,10 @@ public class SampleApiController {
 		PageInfo<Sample> page = this.sampleService.getCustomersByPaging(1, 3);
 		log.debug("Page Info: {}", this.objectMapper.writeValueAsString(page));
 		return page;
+	}
+	
+	@GetMapping("/signin")
+	public void testSessionScope() {
 	}
 
 }
