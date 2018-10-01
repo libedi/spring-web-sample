@@ -121,7 +121,7 @@ public class XlsxUtil {
 		if(CollectionUtils.isEmpty(dataList) == false) {
 			final Map<ColumnType, CellStyle> cellStyleMap = this.getCellStyleMap(workbook);
 			
-			for(List<String> cellData : dataList) {
+			for(final List<String> cellData : dataList) {
 				this.createCell(workbook, sheet, cellData, typeList, rowIdx++, cellStyleMap);
 			}
 		}
@@ -145,7 +145,7 @@ public class XlsxUtil {
 			final CreationHelper helper = workbook.getCreationHelper();
 
 			for (int i = 0, columnSize = cellData.size(); i < columnSize; i++) {
-				Cell cell = row.createCell(i);
+				final Cell cell = row.createCell(i);
 
 				if (CollectionUtils.isEmpty(typeList)) { // typeList가 null로 넘어오면 Header
 					cell.setCellStyle(cellStyleMap.get(ColumnType.HEADER));
@@ -187,7 +187,7 @@ public class XlsxUtil {
 	 */
 	public void mergeCellByReference(final Sheet sheet, final List<String> mergeList) {
 		if(CollectionUtils.isEmpty(mergeList) == false) {
-			for(String range : mergeList) {
+			for(final String range : mergeList) {
 				sheet.addMergedRegion(CellRangeAddress.valueOf(range));
 			}
 		}
@@ -200,7 +200,7 @@ public class XlsxUtil {
 	 */
 	public void mergeCellByAddress(final Sheet sheet, final List<CellRangeAddress> mergeInfoList) {
 		if(CollectionUtils.isEmpty(mergeInfoList) == false) {
-			for(CellRangeAddress rangeAddress : mergeInfoList) {
+			for(final CellRangeAddress rangeAddress : mergeInfoList) {
 				sheet.addMergedRegion(rangeAddress);
 			}
 		}
