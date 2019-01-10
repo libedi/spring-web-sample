@@ -37,10 +37,11 @@ $(function(){
 				sessionStorage.setItem("jwt", jwt);
 			},
 			error: function(xhr, status, err) {
+				const msg = "인증에 실패하였습니다";
 				if(xhr.responseJSON) {
-					const msg = xhr.responseJSON.errorMessage;
-					alert("인증에 실패하였습니다:" + msg);
+					msg += ":" + xhr.responseJSON.errorMessage;
 				}
+				alert(msg);
 			}
 		});
 	});
