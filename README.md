@@ -33,7 +33,7 @@
 
 ### 2. Layer 구조
 - xxxController : 뷰 구성을 위한 컨트롤러. URI 패턴 : /view/*** [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/controller/SampleController.java)
-~~~
+~~~java
 @Controller
 @RequestMapping("/view/sample")
 public class SampleController {
@@ -45,7 +45,7 @@ public class SampleController {
 ~~~
 
 - xxxApiController : 비즈니스 모듈 실행을 위한 컨트롤러. 요청과 응답설정. REST 방식 사용. URI 패턴 : /api/*** [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/controller/SampleApiController.java)
-~~~
+~~~java
 @RestController
 @RequestMapping("/api/samples")
 @RequiredArgsConstructor
@@ -97,7 +97,7 @@ public class SampleService {
 ~~~
 
 - xxxMapper : 매퍼. MyBatis Mapper Interface. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/mapper/SampleMapper.java)
-~~~
+~~~java
 @Mapper
 public interface SampleMapper {
 
@@ -113,7 +113,7 @@ public interface SampleMapper {
 ~~~
 
 - Entity : 엔티티. lombok을 사용하여 코드 간소화. 로깅을 위해 toString()을 반드시 구현.
-~~~
+~~~java
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -146,7 +146,7 @@ public class Sample {
 
 ### 5. PageHelper
 - lambda 식으로 사용
-~~~
+~~~java
 // PageHelper.startPage(int pageNum, int pageSize)
 Page<Sample> page = PageHelper.startPage(1, 10).doSelectPage(() -> sampleMapper.selectCustomers());
 PageInfo<Sample> pageInfo = PageHelper.startPage(1, 10).doSelectPageInfo(() -> sampleMapper.selectCustomers());
@@ -177,7 +177,7 @@ PageInfo<Sample> pageInfo = PageHelper.startPage(1, 10).doSelectPageInfo(() -> s
 	- autoRuntimeDialect : 동적으로 데이터베이스 자동설정. helperDialect보다 우선순위가 높음. 기본값은 false
 	- closeConn : DB connection을 닫을지 여부 설정. 기본값은 true
 
-~~~
+~~~properties
 # PageHelper Configuration
 pagehelper.dialect=com.sample.CustomDialect
 pagehelper.helper-dialect=h2
