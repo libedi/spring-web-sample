@@ -67,7 +67,7 @@ public class SampleApiController {
 ~~~
 
 - xxxService : 서비스. 비즈니스 로직이 실행되는 계층. 트랜잭션 설정 계층. [[코드]](https://github.com/libedi/spring-web-sample/blob/master/spring-web-sample/src/main/java/kr/co/tworld/shop/sample/service/SampleService.java)
-~~~
+~~~java
 @Service
 @RequiredArgsConstructor
 public class SampleService {
